@@ -15,5 +15,13 @@ datasource db {
 }
 
 model Pokemon {
-  
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(50)
+  number    Int      @unique // Pokedex number
+  ability   String?  @db.VarChar(100)
+  types     String[] // Array of types like ["FIRE", "FLYING"]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("pokemons")
 }
