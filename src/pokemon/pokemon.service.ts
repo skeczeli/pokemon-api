@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PokemonRepository } from './pokemon.repository';
 import { CreatePokemonDTO } from './dto/create-pokemon.dto';
 import { PokemonDTO } from './dto/pokemon.dto';
@@ -15,6 +15,14 @@ export class PokemonService {
 
   async getPokemonById(id: string): Promise<PokemonDTO> {
     const pokemon = await this.pokemonRepository.findById(id);
+    return plainToInstance(PokemonDTO, pokemon);
+  }
+
+  async getPokemonByName(name: string): Promise<PokemonDTO> {
+    const pokemon = await this.pokemonRepository.findByName(name);
+    if (!pokemon) {
+      throw new NotFoundException(`Pokemon with name ${name} not found`);
+    }
     return plainToInstance(PokemonDTO, pokemon);
   }
 

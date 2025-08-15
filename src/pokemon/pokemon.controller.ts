@@ -12,9 +12,9 @@ export class PokemonController {
     return this.pokemonService.getAllPokemons();
   }
 
-  @Get(':id')
-  async getPokemonById(@Param('id') id: string): Promise<PokemonDTO> {
-    return this.pokemonService.getPokemonById(id);
+  @Get(':name')
+  async getPokemonByName(@Param('name') name: string): Promise<PokemonDTO> {
+    return this.pokemonService.getPokemonByName(name);
   }
 
   @Post()
