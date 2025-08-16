@@ -9,8 +9,14 @@ export class PokemonDTO {
   name: string;
 
   @Expose()
-  type: string;
+  number: number;
+
+  @Expose()
+  types: string[];
 
   @Expose()
   ability: string;
+
+  @Expose()
+  imageUrl: string;
 }

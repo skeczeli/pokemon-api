@@ -1,4 +1,11 @@
-import { IsNotEmpty, IsNumber, IsString, IsArray } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsArray,
+  IsUrl,
+  IsOptional,
+} from 'class-validator';
 
 export class CreatePokemonDTO {
   @IsString()
@@ -17,4 +24,8 @@ export class CreatePokemonDTO {
   @IsString()
   @IsNotEmpty()
   ability: string;
+
+  @IsUrl()
+  @IsOptional()
+  imageUrl?: string;
 }
