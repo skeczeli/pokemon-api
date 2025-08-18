@@ -11,6 +11,31 @@ export class PokemonRepository {
     return this.prisma.pokemon.findMany();
   }
 
+  async findPokemons(
+    offset: number,
+    limit: number,
+    search?: string,
+  ): Promise<Pokemon[]> {
+    const where = search
+      ? { name: { contains: search, mode: 'insensitive' as const } }
+      : {};
+
+    return this.prisma.pokemon.findMany({
+      where,
+      skip: offset,
+      take: limit,
+      orderBy: { id: 'asc' },
+    });
+  }
+
+  async countPokemons(search?: string): Promise<number> {
+    const where = search
+      ? { name: { contains: search, mode: 'insensitive' as const } }
+      : {};
+
+    return this.prisma.pokemon.count({ where });
+  }
+
   async findById(id: string): Promise<Pokemon | null> {
     return this.prisma.pokemon.findUnique({
       where: { id },

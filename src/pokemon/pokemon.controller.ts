@@ -8,6 +8,7 @@ import {
   Param,
   Query,
   NotFoundException,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CreatePokemonDTO } from './dto/create-pokemon.dto';
 import { PokemonService } from './pokemon.service';
@@ -19,11 +20,13 @@ export class PokemonController {
   constructor(private readonly pokemonService: PokemonService) {}
 
   @Get()
-  async getPokemons(@Query('search') search?: string): Promise<PokemonDTO[]> {
-    if (search) {
-      return this.pokemonService.searchPokemonsByName(search);
-    }
-    return this.pokemonService.getAllPokemons();
+  async getPokemons(
+    @Query('page', new ParseIntPipe({ optional: true })) page = 1,
+    @Query('limit', new ParseIntPipe({ optional: true })) limit = 12,
+    @Query('search') search?: string,
+  ) {
+    console.log('🚀 Controller called with:', { page, limit, search });
+    return this.pokemonService.getPokemons(page, limit, search);
   }
 
   @Get(':id')

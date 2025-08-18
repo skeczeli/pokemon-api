@@ -21,6 +21,25 @@ export class PokemonService {
     return pokemons.map((pokemon) => plainToInstance(PokemonDTO, pokemon));
   }
 
+  async getPokemons(page = 1, limit = 12, search?: string) {
+    const offset = (page - 1) * limit;
+
+    const pokemons = await this.pokemonRepository.findPokemons(
+      offset,
+      limit,
+      search,
+    );
+    const total = await this.pokemonRepository.countPokemons(search);
+
+    return {
+      items: plainToInstance(PokemonDTO, pokemons),
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
+  }
+
   async getPokemonById(id: string): Promise<PokemonDTO> {
     const pokemon = await this.pokemonRepository.findById(id);
     return plainToInstance(PokemonDTO, pokemon);
