@@ -25,7 +25,6 @@ export class PokemonController {
     @Query('limit', new ParseIntPipe({ optional: true })) limit = 12,
     @Query('search') search?: string,
   ) {
-    console.log('🚀 Controller called with:', { page, limit, search });
     return this.pokemonService.getPokemons(page, limit, search);
   }
 
